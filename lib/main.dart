@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 }else{
                   setState(() {
-                    result = "Please fill all the required blanks";
+                    result = "Please fill all the required field";
                   });
                 }
 
