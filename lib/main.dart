@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var result = "";
 
+  var bgColor = Colors.indigo.shade200;
   @override
   Widget build(BuildContext context) {
 
@@ -49,75 +50,90 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
 
-      body: Center(
-        child: Container(
-          width: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('BMI',style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),),
+      body: Container(
+        color: bgColor,
+        child: Center(
+          child: Container(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('BMI',style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),),
 
-              TextField(
-                controller: wtController,
-                decoration: InputDecoration(
-                  label: Text('Enter your Weight'),
-                  prefixIcon: Icon(Icons.line_weight)
+                TextField(
+                  controller: wtController,
+                  decoration: InputDecoration(
+                    label: Text('Enter your Weight'),
+                    prefixIcon: Icon(Icons.line_weight)
+                  ),
+                  keyboardType: TextInputType.number,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 30,),
-              TextField(
-                controller: ftController,
-                decoration: InputDecoration(
-                    label: Text('Enter your Height'),
-                    prefixIcon: Icon(Icons.height)
+                SizedBox(height: 30,),
+                TextField(
+                  controller: ftController,
+                  decoration: InputDecoration(
+                      label: Text('Enter your Height'),
+                      prefixIcon: Icon(Icons.height)
+                  ),
+                  keyboardType: TextInputType.number,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 30,),
-              TextField(
-                controller: inController,
-                decoration: InputDecoration(
-                    label: Text('Enter your Age'),
-                    prefixIcon: Icon(Icons.numbers)
+                SizedBox(height: 30,),
+                TextField(
+                  controller: inController,
+                  decoration: InputDecoration(
+                      label: Text('Enter your Age'),
+                      prefixIcon: Icon(Icons.numbers)
+                  ),
+                  keyboardType: TextInputType.number,
                 ),
-                keyboardType: TextInputType.number,
-              ),
 
-              SizedBox(height: 30,),
+                SizedBox(height: 30,),
 
-              ElevatedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
 
-                var wt = wtController.text.toString();
-                var ft = ftController.text.toString();
-                var inc = inController.text.toString();
+                  var wt = wtController.text.toString();
+                  var ft = ftController.text.toString();
+                  var inc = inController.text.toString();
 
-                if(wt != "" && ft != "" && inc != ""){
+                  if(wt != "" && ft != "" && inc != ""){
 
-                  var iwt = int.parse(wt);
-                  var ifit = int.parse(ft);
-                  var iinc = int.parse(inc);
+                    var iwt = int.parse(wt);
+                    var ifit = int.parse(ft);
+                    var iinc = int.parse(inc);
 
-              //  Convert height to inches
-                  var heightInInches = (ifit * 12) + iinc;
+                //  Convert height to inches
+                    var heightInInches = (ifit * 12) + iinc;
 
-               //Calculate BMI
-                  var bmi = (iwt / (heightInInches * heightInInches)) * 703;
+                 //Calculate BMI
+                    var bmi = (iwt / (heightInInches * heightInInches)) * 703;
 
-                  setState(() {
-                    result = "Your BMI is: ${bmi.toStringAsFixed(4)}";
-                  });
+                    var msg = "";
+                    if(bmi>25){
+                      msg = "You are OverWeight";
+                      bgColor = Colors.orange.shade200;
+                    }else if(bmi<18){
+                      msg = "You are UnderWeight";
+                      bgColor = Colors.red.shade200;
+                    }else{
+                      msg = "You are Healthy";
+                      bgColor = Colors.green.shade200;
+                    }
+                    setState(() {
 
-                }else{
-                  setState(() {
-                    result = "Please fill up all the required field";
-                  });
-                }
+                      result = "$msg \n  Your BMI is: ${bmi.toStringAsFixed(4)}";
+                    });
 
-              }, child: Text('Calculate')),
-              SizedBox(height: 30,),
-              Text(result,style: TextStyle(fontSize: 15),)
-            ],
+                  }else{
+                    setState(() {
+                      result = "Please fill up all the required field";
+                    });
+                  }
+
+                }, child: Text('Calculate')),
+                SizedBox(height: 30,),
+                Text(result,style: TextStyle(fontSize: 15),)
+              ],
+            ),
           ),
         ),
       )
